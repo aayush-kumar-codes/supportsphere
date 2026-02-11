@@ -1,43 +1,41 @@
-import { OpenAIApi, Configuration } from 'openai';
+import { OpenAI } from 'openai-agent-sdk';
 import { PrismaClient } from '@prisma/client';
 import Redis from 'ioredis';
 
 const prisma = new PrismaClient();
 const redis = new Redis();
-const openai = new OpenAIApi(new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-}));
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export const analyzeCustomerQuery = async (query) => {
-  if (!query) {
-    throw new Error('Query cannot be empty');
-  }
-
-  try {
-    const cachedResponse = await redis.get(query);
-    if (cachedResponse) {
-      return JSON.parse(cachedResponse);
+    if (!query || typeof query !== 'string') {
+        throw new Error('Invalid query provided');
     }
 
-    const response = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: query }],
-    });
+    try {
+        const cachedResult = await redis.get(query);
+        if (cachedResult) {
+            return JSON.parse(cachedResult);
+        }
 
-    const analysis = response.data.choices[0].message.content;
+        const response = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: [{ role: 'user', content: query }],
+        });
 
-    await redis.set(query, JSON.stringify(analysis), 'EX', 3600); // Cache for 1 hour
+        const analysis = response.choices[0].message.content;
 
-    await prisma.queryLog.create({
-      data: {
-        query,
-        analysis,
-      },
-    });
+        await redis.set(query, JSON.stringify(analysis), 'EX', 3600); // Cache for 1 hour
 
-    return analysis;
-  } catch (error) {
-    console.error('Error analyzing query:', error);
-    throw new Error('Failed to analyze query');
-  }
+        await prisma.queryAnalysis.create({
+            data: {
+                query,
+                analysis,
+            },
+        });
+
+        return analysis;
+    } catch (error) {
+        console.error('Error analyzing customer query:', error);
+        throw new Error('Failed to analyze query');
+    }
 };
