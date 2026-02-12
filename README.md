@@ -1,77 +1,52 @@
-# SupportSphere ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Version](https://img.shields.io/badge/version-1.0.0-blue)
+# README.md
 
-## Project Description
-SupportSphere is an intelligent customer support platform that leverages AI to analyze customer queries and provide real-time suggestions to support agents. It enhances collaboration among team members and dynamically updates the knowledge base based on ongoing interactions, ensuring that agents have the most relevant information at their fingertips.
+# SupportSphere Project
 
-## Features
-- 🤖 AI-driven customer query analysis
-- 💬 Real-time support agent collaboration
-- 📚 Dynamic knowledge base suggestions
+## Overview
+SupportSphere is a web application designed to provide support services using advanced AI capabilities.
 
 ## Tech Stack
-### Frontend
-- **Next.js** 🌐
+- Node.js
+- Next.js
+- PostgreSQL
+- Prisma
+- Redis
+- OpenAI Agent SDK
 
-### Backend
-- **Node.js** 🚀
-- **OpenAI Agent SDK** 🧠
-
-### Database
-- **PostgreSQL** 🗄️
-- **Prisma** 🔗
-
-### Caching
-- **Redis** 🧊
-
+## Directory Structure
+/support-sphere
+|-- /src
+|   |-- /components
+|   |-- /pages
+|   |-- /styles
+|   |-- /utils
+|-- /prisma
+|   |-- schema.prisma
+|-- /redis
+|-- /scripts
+|-- .env
+|-- package.json
+|-- README.md
 ## Installation
-To set up the project locally, follow these steps:
 
-- Clone the repository
-bash
-git clone https://github.com/aayush-kumar-codes/supportsphere.git
-- Navigate to the project directory
-bash
-cd supportsphere
-- Install the dependencies
-bash
-npm install
-- Set up the environment variables (create a `.env` file based on `.env.example`)
-bash
-cp .env.example .env
-- Run the database migrations
-bash
-npx prisma migrate dev
-- Start the development server
-bash
-npm run dev
-## Usage
-Once the server is running, you can access the application at `http://localhost:3000`. Follow the on-screen instructions to start using SupportSphere for your customer support needs.
+1. Clone the repository:
+   git clone <repository-url>
+   cd support-sphere
+   2. Install dependencies:
+   npm install
+   3. Set up environment variables in the `.env` file.
 
-## API Documentation
-For detailed API documentation, please refer to the [API Docs](https://github.com/aayush-kumar-codes/supportsphere/wiki/API-Documentation).
-
-## Testing
-To run the tests for this project, use the following command:
-bash
-npm test
-## Deployment
-To deploy the application, follow these steps:
-
-- Build the application
-bash
-npm run build
-- Start the production server
-bash
-npm start
-- Ensure your environment variables are set correctly for production.
+4. Run the application:
+   npm run dev
+   ## Database Setup
+1. Ensure PostgreSQL is running.
+2. Run Prisma migrations:
+   npx prisma migrate dev --name init
+   ## Redis Setup
+1. Ensure Redis is running.
 
 ## Contributing
-We welcome contributions! Please follow these guidelines:
+Please read the [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
 
-- Fork the repository
-- Create a new branch (`git checkout -b feature/YourFeature`)
-- Make your changes and commit them (`git commit -m 'Add some feature'`)
-- Push to the branch (`git push origin feature/YourFeature`)
-- Open a Pull Request
-
-Thank you for considering contributing to SupportSphere!
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
